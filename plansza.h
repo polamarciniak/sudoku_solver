@@ -1,3 +1,5 @@
+#ifndef PLANSZA
+#define PLANSZA
 #include "head.h"
 
 using namespace std;
@@ -55,7 +57,7 @@ bool is_correct()
     {
         for(int j = 0; j < 9; j++)
         {
-            if(!is_valid(i, j, T[i][j]) && T[i][j] != 0)    return false;
+            if(!is_valid(i, j, T[i][j]))    return false;
         }
     }
     return true;
@@ -95,5 +97,6 @@ void print_sudoku()
         cout << "\n";
     }
 }
+#endif // PLANSZA
 
 
