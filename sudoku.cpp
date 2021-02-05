@@ -1,18 +1,8 @@
 #include "head.h"
-#include "n_sudoku.h"
-#include "plansza.h"
-
-/*using namespace std;
-
-int main()
-{
-    if(solve() == true)    print_sudoku();
-    else    cout << "no solution";
-}*/
-
 using namespace std;
 
 int sizex, sizey;
+
 
 int main()
 {
@@ -30,19 +20,22 @@ int main()
     attron(COLOR_PAIR(3));
     write_entry();
     attroff(COLOR_PAIR(3));
-    refresh();
-    getchar();
     clear();
     refresh();
 
+    echo();
 
-
-    if(solve() == true) //&& is_correct() == true) //nie dziala??
+    if(solve())
     {
         sudoku = create_window(11, 21, (sizey)/2-5, (sizex)/2-11, TRUE);
         print_window(sudoku);
+        wgetch(sudoku);
+        endwin();
+        clear();
+        refresh();
     }
-    else    write_no_success();
 
+    endwin();
+    refresh();
     return 0;
 }
