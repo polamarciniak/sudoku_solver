@@ -1,5 +1,6 @@
+#ifndef N_SUDOKU
+#define N_SUDOKU
 #include "head.h"
-
 using namespace std;
 
 int T[9][9] =
@@ -14,6 +15,19 @@ int T[9][9] =
     {0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
+bool R[9][9] =
+{
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0}
+};
+
 
 WINDOW *create_window(int height, int width, int posy, int posx, bool border)
 {
@@ -36,8 +50,21 @@ void get_numbers(WINDOW *win)
         {
             c = wgetch(win);
             if(c == ' ')    T[i][j] = 0;
-            else   T[i][j] = c-'0';
-            mvwprintw(win, i+1, (j+1)*2, "%c ", c);
+            else   if(c >= '1' && c <= '9')
+            {
+                T[i][j] = c-'0';
+                R[i][j] = true;
+            }
+            curs_set(0);
+            if(j == 8)
+            {
+                mvwprintw(win, i+1, (j+1)*2, "%c ", c);
+            }
+            else
+            {
+                curs_set(1);
+                mvwprintw(win, i+1, (j+1)*2, "%c ", c);
+            }
             wrefresh(win);
         }
     }
@@ -69,6 +96,8 @@ void write_entry()
 
     get_numbers(inputwin);
 
+    //curs_set(1);
+
     refresh();
 
     getch();
@@ -78,6 +107,7 @@ void write_entry()
 
 void write_no_success()
 {
+
     initscr();
 
     int maxy, maxx;
@@ -92,6 +122,18 @@ void write_no_success()
     getch();
 
     endwin();
+
+    /*curs_set(1);
+    echo();
+    int maxy, maxx;
+
+    getmaxyx(stdscr, maxy, maxx);
+
+    wattron(win, COLOR_PAIR(3));
+    mvwprintw(win, 1, 2, "Sorry, your sudoku puzzle is incorrect :/");
+    wattroff(win, COLOR_PAIR(3));
+
+    wrefresh(win);*/
 }
 
 void print_window(WINDOW *win)
@@ -107,11 +149,17 @@ void print_window(WINDOW *win)
                 mvwprintw(win, 1+i, 2+j*2, "  ");
                 wattroff(win, COLOR_PAIR(1));
             }
-            else
+            else if(R[i][j])
             {
                 wattron(win, COLOR_PAIR(1));
                 mvwprintw(win, 1+i, 2+j*2, "%d ", T[i][j]);
                 wattroff(win, COLOR_PAIR(1));
+            }
+            else
+            {
+                wattron(win, COLOR_PAIR(3));
+                mvwprintw(win, 1+i, 2+j*2, "%d ", T[i][j]);
+                wattroff(win, COLOR_PAIR(3));
             }
         }
     }
@@ -130,3 +178,4 @@ void init_color_pairs()
 
 }
 
+#endif
