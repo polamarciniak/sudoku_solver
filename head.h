@@ -1,7 +1,11 @@
+#ifndef HEAD
+#define HEAD
 #include <ncurses.h>
 #include <stdbool.h>
 #include <iostream>
 #include <stdio.h>
+#include "n_sudoku.h"
+#include "plansza.h"
 
 bool is_in_row (int row, int val);
 bool is_in_col (int col, int val);
@@ -18,3 +22,5 @@ void write_entry();
 void print_window(WINDOW *win);
 void init_color_pairs();
 void write_no_success();
+
+#endif
